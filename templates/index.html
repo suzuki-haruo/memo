@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang>
+	
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>フォームページ</title>
+		<!-- <script src="../templates/index.js"></script> -->
+		<script src="../app.js"></script>
+	</head>
+	<style>
+		body{
+			background-color: antiquewhite;
+		}
+		.title{
+			text-align: center;
+			background-color:floralwhite ;
+		}
+		main{
+			position: relative;
+			/* text-align: center; */
+		}
+		h1{
+			color: rgb(132, 132, 132);
+			font-size: 30px;
+			text-align: center;
+		
+			
+		}
+		/* li{
+			text-align: center;
+		} */
+		form{
+			display: inline;
+		}
+		li{
+			list-style: none;
+		}
+		input{
+			width: 200px;
+			height: 24px;
+			margin: 10px 0;
+			border: 2px solid;
+		}
+
+
+		.submit {
+			width: 70px;
+			height: 30px;
+			border:outset 5px rgb(182, 182, 182);
+		}
+		select{
+			width: auto;
+			height: 30px;
+		}
+		/* .task_list h2{
+			
+			margin-top: 50px;
+		} */
+		h2{
+			margin-left: 40px;
+			color: rgb(132, 132, 132);
+		}
+		.template_list h2{
+			padding-top: 50px;
+			margin-top: 100px;
+			/* margin-bottom: 45px; */
+			/* border-top:1px solid ; */
+		}
+		
+		.mov{
+			/* position: relative; */
+			text-align: center;
+			position: absolute;
+			margin-left: auto;
+   			margin-right: auto;
+			padding: 10px;
+			border: 1px dotted;
+			left: 510px;
+			background-color: snow;
+		}
+		small, video{
+			/* position: absolute; */
+			
+			bottom: 35px;
+			
+			
+		}
+
+		.mov li{
+			margin: 5px 0;
+		}
+		.template_button{
+			width: 130px;
+			height: 30px;
+			border:outset 5px rgb(182, 182, 182);
+		}
+		.scroll{
+			margin-left: auto;
+    			margin-right: auto;
+			background-color: snow;
+  			height: 450px;
+			width: 500px;
+  			overflow-y: scroll;
+
+		}
+		
+
+	</style>
+	<body>
+		<header>
+			<h1 class="title" >テンプレでラクラクメモ帳</h1>
+		</header>
+
+		<main>
+
+			<div class="scroll">
+				<div class="task_list">
+					<h2>タスク一覧</h2>
+					<ul>
+						<form method="post" action="/">
+							<input id="task_input" type="text" name="task" placeholder="タスク">
+							<select name="category_id">
+								{% for category in categories %}
+								<option value="{{category.id}}">{{category.category_name}}</option>
+								{% endfor %}
+							</select>
+							<input  class="submit" type="submit" value="送信">
+						</form>
+						<br>
+						{% for task in tasks %}
+						<!-- ↑改行OK -->
+							
+							<li>
+								
+								<form method="post" action="/edit">
+									<input type="text" name="task_name" value="{{task.task_name}}">
+									<input type="hidden" name="task_id" value="{{task.id}}">
+									<select name="category_id">
+										{% for category in categories %}
+										<option value="{{category_id}}"
+											
+										>{{category.category_name}}</option>
+										{% endfor %}
+									</select>
+
+									<input class="submit" type="submit" value="編集">
+							
+
+								</form>
+								<form method="post" action="/finish">
+									
+									<input type="hidden" name="task_id" value="{{task.id}}">
+									<input class="submit" type="submit" value="削除">
+								</form>
+							
+							</li>
+						{% endfor %}
+						
+								<br>
+								
+						
+					</ul>
+				</div>
+				<div class="template_list">
+					<h2>テンプレートボタン作成</h2>
+					<ul>
+						{% for template in templates %}
+							<li>
+								<form method="post">
+									<input class="template_button" id="button"  onclick="onClick()" type="button" value="{{template.template_name}}"/>
+									
+									
+										<!-- <input type="hidden" name="template_id" value="{{template.template_id}}"> -->
+										<input id="template" class="text" hidden="hidden" value="{{template.template_name}}" name="btntemp">
+										
+									
+
+								</form>
+									
+								
+						
+								<form method="post" action="/finish2">
+									<input type="hidden" name="template_id" value="{{template.template_id}}">
+									<input class="submit" type="submit" id="temp_del_button" onclick="onClick2()" value="削除">
+								</form>
+							</li>	
+								
+						{% endfor %}
+								<form class="template" method="post" action="/temp">
+									<input id="template_input" type="text" name="template" placeholder="オリジナルテンプレートを入力">
+									<input class="submit" type="submit" id="temp_button" onsubmit="onClick3()" value="生成">
+								
+							
+								</form>
+								
+							
+					</ul>
+
+				</div>
+			</div>
+			<div class="mov">
+				<ul>
+					<li><small>テンプレートボタンの使い方</small></li>
+					<li><video src="../memo.mov" controls autoplay muted playsinline preload width="350px" height="170px"></video></li>
+				</ul>
+			</div>
+			
+ 
+		
+		</main>
+		
+	</body>
+</html>
